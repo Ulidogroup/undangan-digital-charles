@@ -10,7 +10,7 @@ window.ULIDO_CONFIG = {
   musicVolume: 0.55,
   whatsappNumber: '6281586539412', // opsional, contoh: '6281234567890'
   whatsappMessage: 'Halo, kami ingin mengonfirmasi kehadiran.',
-  mapsPemberkatan: 'https://share.google/EVkUtVC6lgRpWFVKo',
+  mapsPemberkatan: 'https://maps.app.goo.gl/acwoZtdtkcUTsudi7',
   mapsResepsi: 'https://maps.app.goo.gl/LtTe6nY25Goh5hJS6',
   backgroundColor: '#4b1c2d',
   goldColor: '#d9b47d',
