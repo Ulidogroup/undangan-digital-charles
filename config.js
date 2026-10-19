@@ -8,7 +8,7 @@ window.ULIDO_CONFIG = {
   coverIcon: '', // contoh: 'assets/ornaments/logo.webp' (kosong = ikon hati)
   backgroundMusic: 'assets/music/Rongkap Sian Tuhan.mp3',
   musicVolume: 0.55,
-  whatsappNumber: '', // opsional, contoh: '6281234567890'
+  whatsappNumber: '6281586539412', // opsional, contoh: '6281234567890'
   whatsappMessage: 'Halo, kami ingin mengonfirmasi kehadiran.',
   mapsUrl: '', // opsional, URL Google Maps
   backgroundColor: '#4b1c2d',
