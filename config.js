@@ -5,7 +5,7 @@ window.ULIDO_CONFIG = {
   guestLabel: 'Kepada Yth.',
   defaultGuest: 'Bapak/Ibu/Saudara/i',
   // Tautan nama tamu: ?to=Bapak%20Andi
-  coverIcon: '', // contoh: 'assets/ornaments/logo.webp' (kosong = ikon hati)
+  coverIcon: 'assets/ornaments/ornament.webp', // contoh: 'assets/ornaments/logo.webp' (kosong = ikon hati)
   backgroundMusic: 'assets/music/Rongkap Sian Tuhan.mp3',
   musicVolume: 0.55,
   whatsappNumber: '6281586539412', // opsional, contoh: '6281234567890'
