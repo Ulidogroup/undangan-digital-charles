@@ -12,7 +12,7 @@ window.ULIDO_CONFIG = {
   whatsappMessage: 'Halo Charles & Eva, Keluarga kami ingin mengonfirmasi kehadiran.',
   mapsPemberkatan: 'https://maps.app.goo.gl/acwoZtdtkcUTsudi7',
   mapsResepsi: 'https://maps.app.goo.gl/LtTe6nY25Goh5hJS6',
-  backgroundColor: '#620000',
+  backgroundColor: '#4b1c2d',
   goldColor: '#d9b47d',
   // Bebas menambah halaman, mendukung .webp, .jpg, .png, dan .svg.
   // Semua gambar akan tampil vertikal berurutan (tanpa animasi flip).
