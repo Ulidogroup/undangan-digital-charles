@@ -1,6 +1,6 @@
 // CUKUP EDIT FILE INI UNTUK SETIAP PESANAN
 window.ULIDO_CONFIG = {
-  couple: 'Charles & Pasangan',
+  couple: 'Charles & Eva',
   coverLabel: 'UNDANGAN SPESIAL',
   guestLabel: 'Kepada Yth.',
   defaultGuest: 'Bapak/Ibu/Saudara/i',
