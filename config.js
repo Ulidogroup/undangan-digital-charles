@@ -10,7 +10,8 @@ window.ULIDO_CONFIG = {
   musicVolume: 0.55,
   whatsappNumber: '6281586539412', // opsional, contoh: '6281234567890'
   whatsappMessage: 'Halo, kami ingin mengonfirmasi kehadiran.',
-  mapsUrl: '', // opsional, URL Google Maps
+  mapsPemberkatan: 'https://share.google/EVkUtVC6lgRpWFVKo',
+  mapsResepsi: 'https://maps.app.goo.gl/LtTe6nY25Goh5hJS6',
   backgroundColor: '#4b1c2d',
   goldColor: '#d9b47d',
   // Bebas menambah halaman, mendukung .webp, .jpg, .png, dan .svg.
