@@ -1,22 +1,67 @@
-(()=>{'use strict';
-const $=id=>document.getElementById(id);
-const KEY='ulido-scroll-guests-v1';
-const invitationUrl=new URL('../',location.href);invitationUrl.search='';invitationUrl.hash='';
-$('publicLink').href=invitationUrl.href;
-let names=[];try{const saved=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(saved)) names=saved.filter(n=>typeof n==='string').slice(0,10000)}catch{}
-const normalize=s=>String(s).replace(/\s+/g,' ').trim().slice(0,150);
-const guestUrl=name=>{const url=new URL(invitationUrl.href);url.searchParams.set('to',name);return url.href};
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(names));return true}catch{notify('Penyimpanan browser penuh atau tidak tersedia. Ekspor data CSV untuk cadangan.');return false}};
-const notify=s=>{$('notice').textContent=s};
-function render(){const q=normalize($('search').value).toLocaleLowerCase('id');const list=$('guestList');list.replaceChildren();$('count').textContent=names.length.toLocaleString('id-ID');const matches=names.filter(n=>n.toLocaleLowerCase('id').includes(q));$('empty').hidden=matches.length>0;$('empty').textContent=names.length?'Tidak ada nama yang cocok.':'Belum ada tamu. Tambahkan nama di atas.';
-for(const name of matches){const row=document.createElement('article');row.className='guest';const details=document.createElement('div');const title=document.createElement('strong');title.textContent=name;const u=document.createElement('div');u.className='url';u.textContent=guestUrl(name);details.append(title,u);const actions=document.createElement('div');actions.className='buttons';const copy=document.createElement('button');copy.textContent='Salin Link';copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(guestUrl(name));copy.textContent='Tersalin ✓';setTimeout(()=>copy.textContent='Salin Link',1500)}catch{window.prompt('Salin link undangan:',guestUrl(name))}});const wa=document.createElement('a');wa.textContent='WhatsApp ↗';wa.href='https://wa.me/?text='+encodeURIComponent('Kepada Yth. '+name+'\n\nDengan hormat, kami mengundang Anda melalui tautan berikut:\n'+guestUrl(name));wa.target='_blank';wa.rel='noopener noreferrer';const preview=document.createElement('a');preview.textContent='Pratinjau ↗';preview.href=guestUrl(name);preview.target='_blank';preview.rel='noopener noreferrer';const remove=document.createElement('button');remove.className='remove';remove.textContent='Hapus';remove.addEventListener('click',()=>{if(confirm('Hapus tamu '+name+'?')){names=names.filter(n=>n!==name);save();render()}});actions.append(copy,wa,preview,remove);row.append(details,actions);list.append(row)}}
-$('addBtn').addEventListener('click',()=>{const incoming=$('names').value.split(/\r?\n/).map(normalize).filter(Boolean);if(!incoming.length){notify('Masukkan minimal satu nama tamu.');return}let added=0;const unique=new Set(names.map(n=>n.toLocaleLowerCase('id')));for(const name of incoming){const k=name.toLocaleLowerCase('id');if(!unique.has(k)){names.push(name);unique.add(k);added++}}save();$('names').value='';notify(`${added} nama tamu ditambahkan. ${incoming.length-added} duplikat dilewati.`);render()});
-$('clearInputBtn').addEventListener('click',()=>{$('names').value='';$('names').focus()});$('search').addEventListener('input',render);
-$('deleteAllBtn').addEventListener('click',()=>{if(names.length&&confirm('Hapus SEMUA '+names.length+' nama tamu yang tersimpan di browser ini?')){names=[];save();render();notify('Semua nama telah dihapus dari browser ini.')}});
-const csvCell=s=>'"'+String(s).replace(/"/g,'""')+'"';
-$('exportBtn').addEventListener('click',()=>{const csv='\uFEFFNama Tamu,Link Undangan\r\n'+names.map(n=>csvCell(n)+','+csvCell(guestUrl(n))).join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='ULIDO-Daftar-Tamu.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
-// CSV parser handles quoted commas and newlines. First column is guest name.
-function parseCsv(text){const rows=[];let row=[],field='',quote=false;for(let i=0;i<text.length;i++){let ch=text[i];if(quote){if(ch==='"'&&text[i+1]==='"'){field+='"';i++}else if(ch==='"')quote=false;else field+=ch}else if(ch==='"')quote=true;else if(ch===','){row.push(field);field=''}else if(ch==='\n'){row.push(field.replace(/\r$/,''));rows.push(row);row=[];field=''}else field+=ch}if(field||row.length){row.push(field);rows.push(row)}return rows}
-$('importFile').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{const text=(await file.text()).replace(/^\uFEFF/,'');const rows=parseCsv(text);const seen=new Set(names.map(n=>n.toLocaleLowerCase('id')));let added=0;for(const r of rows){const n=normalize(r[0]||'');if(!n||/^(nama tamu|nama)$/i.test(n))continue;if(!seen.has(n.toLocaleLowerCase('id'))){names.push(n);seen.add(n.toLocaleLowerCase('id'));added++}}save();render();notify(`${added} nama diimpor dari CSV.`)}catch{notify('File CSV tidak dapat dibaca.')}e.target.value=''});
-render();
+(() => {
+  'use strict';
+  const c = window.ULIDO_CONFIG || {};
+  const $ = id => document.getElementById(id);
+  const validColor = value => /^#[0-9a-fA-F]{3,8}$/.test(value || '');
+  if (validColor(c.backgroundColor)) document.body.style.backgroundColor = c.backgroundColor;
+  if (validColor(c.goldColor)) document.documentElement.style.setProperty('--gold', c.goldColor);
+  const guestFromUrl = new URLSearchParams(location.search).get('to');
+  const guest = (guestFromUrl || c.defaultGuest || 'Bapak/Ibu/Saudara/i').trim().slice(0,150);
+  const couple = c.couple || 'Undangan Digital';
+  $('couple').textContent = couple;
+  $('endCouple').textContent = couple;
+  $('coverLabel').textContent = c.coverLabel || 'UNDANGAN SPESIAL';
+  $('guestLabel').textContent = c.guestLabel || 'Kepada Yth.';
+  $('guestName').textContent = guest;
+  document.title = `${couple} — Undangan Digital`;
+  if (c.coverIcon) {
+    const logo = document.createElement('img');
+    logo.src = c.coverIcon;
+    logo.alt = '';
+    $('coverIcon').replaceChildren(logo);
+  }
+  const pages = Array.isArray(c.pages) ? c.pages.filter(p => typeof p === 'string' && p.trim()) : [];
+  const pageContainer = $('pages');
+  if (!pages.length) pageContainer.innerHTML = '<div class="page-fallback">Belum ada gambar. Tambahkan daftar pages di config.js.</div>';
+  pages.forEach((src, i) => {
+    const img = document.createElement('img');
+    img.className = 'invitation-page';
+    img.src = src;
+    img.alt = `Halaman undangan ${i + 1}`;
+    img.loading = i < 2 ? 'eager' : 'lazy';
+    img.decoding = 'async';
+    img.addEventListener('error', () => {
+      const fallback = document.createElement('div');
+      fallback.className = 'page-fallback';
+      fallback.textContent = `Gambar halaman ${i + 1} tidak ditemukan: ${src}`;
+      img.replaceWith(fallback);
+    });
+    pageContainer.appendChild(img);
+  });
+  const maps = $('mapsLink');
+  if (c.mapsUrl && /^https:\/\//i.test(c.mapsUrl)) { maps.href = c.mapsUrl; maps.hidden = false; }
+  const wa = $('waLink');
+  const waNumber = String(c.whatsappNumber || '').replace(/\D/g, '');
+  if (waNumber) { wa.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(c.whatsappMessage || '')}`; wa.hidden = false; }
+  const audio = $('backgroundAudio');
+  const musicBtn = $('musicBtn');
+  let hasMusic = !!c.backgroundMusic;
+  if (hasMusic) { audio.src = c.backgroundMusic; audio.volume = Math.max(0, Math.min(1, Number(c.musicVolume ?? 0.55))); }
+  else musicBtn.hidden = true;
+  const syncMusic = () => { const playing = !audio.paused; musicBtn.setAttribute('aria-pressed', String(playing)); musicBtn.title = playing ? 'Jeda musik' : 'Putar musik'; };
+  async function playMusic() { if (!hasMusic) return; try { await audio.play(); } catch { syncMusic(); } syncMusic(); }
+  audio.addEventListener('pause', syncMusic);
+  audio.addEventListener('play', syncMusic);
+  audio.addEventListener('error', () => { hasMusic = false; musicBtn.hidden = true; });
+  musicBtn.addEventListener('click', () => audio.paused ? playMusic() : audio.pause());
+  $('topBtn').addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+  $('openBtn').addEventListener('click', () => {
+    $('invitation').hidden = false;
+    $('floatingActions').hidden = false;
+    $('welcome').classList.add('welcome--closing');
+    window.scrollTo(0, 0);
+    playMusic();
+    // Hapus cover dari alur navigasi setelah transisi.
+    setTimeout(() => { $('welcome').hidden = true; }, 800);
+  }, { once: true });
 })();
