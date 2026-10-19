@@ -6,7 +6,7 @@ window.ULIDO_CONFIG = {
   defaultGuest: 'Bapak/Ibu/Saudara/i',
   // Tautan nama tamu: ?to=Bapak%20Andi
   coverIcon: '', // contoh: 'assets/ornaments/logo.webp' (kosong = ikon hati)
-  backgroundMusic: 'assets/music/background.mp3',
+  backgroundMusic: 'assets/music/Rongkap Sian Tuhan.mp3',
   musicVolume: 0.55,
   whatsappNumber: '', // opsional, contoh: '6281234567890'
   whatsappMessage: 'Halo, kami ingin mengonfirmasi kehadiran.',
