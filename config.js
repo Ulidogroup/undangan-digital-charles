@@ -9,7 +9,7 @@ window.ULIDO_CONFIG = {
   backgroundMusic: 'assets/music/Rongkap Sian Tuhan.mp3',
   musicVolume: 0.55,
   whatsappNumber: '6281586539412', // opsional, contoh: '6281234567890'
-  whatsappMessage: 'Halo, kami ingin mengonfirmasi kehadiran.',
+  whatsappMessage: 'Halo Charles & Eva, Keluarga kami ingin mengonfirmasi kehadiran.',
   mapsPemberkatan: 'https://maps.app.goo.gl/acwoZtdtkcUTsudi7',
   mapsResepsi: 'https://maps.app.goo.gl/LtTe6nY25Goh5hJS6',
   backgroundColor: '#4b1c2d',
