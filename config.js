@@ -16,9 +16,11 @@ window.ULIDO_CONFIG = {
   // Bebas menambah halaman, mendukung .webp, .jpg, .png, dan .svg.
   // Semua gambar akan tampil vertikal berurutan (tanpa animasi flip).
   pages: [
-    'assets/pages/01.svg',
-    'assets/pages/02.svg',
-    'assets/pages/03.svg',
-    'assets/pages/04.svg'
+    'assets/pages/undangan charles-01',
+    'assets/pages/undangan charles-02',
+    'assets/pages/undangan charles-03',
+    'assets/pages/undangan charles-04',
+    'assets/pages/undangan charles-05',
+    'assets/pages/undangan charles-06'
   ]
 };
