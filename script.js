@@ -38,8 +38,23 @@
     });
     pageContainer.appendChild(img);
   });
-  const maps = $('mapsLink');
-  if (c.mapsUrl && /^https:\/\//i.test(c.mapsUrl)) { maps.href = c.mapsUrl; maps.hidden = false; }
+  // Lokasi Pemberkatan
+const pemberkatan = $('mapsPemberkatan');
+
+if (c.mapsPemberkatan &&
+    /^https:\/\//i.test(c.mapsPemberkatan)) {
+  pemberkatan.href = c.mapsPemberkatan;
+  pemberkatan.hidden = false;
+}
+
+// Lokasi Resepsi dan Pesta Adat
+const resepsi = $('mapsResepsi');
+
+if (c.mapsResepsi &&
+    /^https:\/\//i.test(c.mapsResepsi)) {
+  resepsi.href = c.mapsResepsi;
+  resepsi.hidden = false;
+}
   const wa = $('waLink');
   const waNumber = String(c.whatsappNumber || '').replace(/\D/g, '');
   if (waNumber) { wa.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(c.whatsappMessage || '')}`; wa.hidden = false; }
